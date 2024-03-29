@@ -2,10 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import studentService from "./studentService";
 
 const students = JSON.parse(localStorage.getItem("Adminstudents"));
+const eksg_subjects = JSON.parse(localStorage.getItem("eksg_subjects"));
 
 const initialState = {
   students: students ? students : [],
   singleStudents: null,
+  subjects: eksg_subjects ? eksg_subjects : [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -54,6 +56,68 @@ export const getSingleStudent = createAsyncThunk(
   }
 );
 
+export const registerStudent = createAsyncThunk(
+  "students/registerStudent",
+  async (studentData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().schoolAuth.user.token;
+      const data = await studentService.registerStudent(token, studentData);
+      console.log(data);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const updateSingleStudent = createAsyncThunk(
+  "students/updateSingleStudent",
+  async (studentData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().schoolAuth.user.token;
+      const data = await studentService.updateSingleStudents(
+        token,
+        studentData
+      );
+      console.log(data);
+      return data.student;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getAllSubjects = createAsyncThunk(
+  "students/getAllSubjects",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().schoolAuth.user.token;
+      const data = await studentService.getAllSubjects(token);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const studentsSlice = createSlice({
   name: "students",
   initialState,
@@ -82,6 +146,37 @@ const studentsSlice = createSlice({
         state.message = action.payload;
         state.isSuccess = false;
       })
+      .addCase(updateSingleStudent.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateSingleStudent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.singleStudent = action.payload;
+        state.isSuccess = true;
+        state.message = "student added successfully";
+      })
+      .addCase(updateSingleStudent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(registerStudent.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(registerStudent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = "student added successfully";
+      })
+      .addCase(registerStudent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
       .addCase(getSingleStudent.pending, (state) => {
         state.isLoading = true;
       })
@@ -92,6 +187,21 @@ const studentsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getSingleStudent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getAllSubjects.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllSubjects.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.subjects = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getAllSubjects.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

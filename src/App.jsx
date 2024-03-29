@@ -27,6 +27,9 @@ import SingleStudentPage from "./pages/dashboard/SingleStudentPage";
 import { useSelector } from "react-redux";
 import AddSchoolPage from "./pages/dashboard/AddSchoolPage";
 import AdminPage from "./pages/dashboard/AdminPage";
+import SubjectAnalysis from "./pages/subject-analysis/SubjectAnalysis";
+import AddStudent from "./pages/dashboard/AddStudent";
+import EditStudents from "./pages/dashboard/EditStudents";
 
 // routes
 
@@ -84,8 +87,20 @@ export default function App() {
           element: <SingleStudentPage />,
         },
         {
+          path: "subject-analysis",
+          element: <SubjectAnalysis />,
+        },
+        {
           path: "schools/add-school",
           element: <AddSchoolPage />,
+        },
+        {
+          path: "edit-student/:studentId",
+          element: <EditStudents />,
+        },
+        {
+          path: "students/add-student",
+          element: <AddStudent />,
         },
         {
           path: "profile",

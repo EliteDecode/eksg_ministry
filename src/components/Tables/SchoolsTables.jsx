@@ -149,7 +149,7 @@ const SchoolsTables = ({ class_taken }) => {
       title: " Code",
       key: "school_code",
       dataIndex: "school_code",
-      ...getColumnSearchProps("school_code"),
+      ...getColumnSearchProps("<school_code></school_code>"),
     },
     {
       title: "Owner",

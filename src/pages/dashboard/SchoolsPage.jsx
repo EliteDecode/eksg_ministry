@@ -20,7 +20,7 @@ import TeachersTables from "@/components/Tables/StudentsTables";
 import { subjectsList } from "@/lib/utils";
 import SchoolsHeader from "@/components/dashboard/SchoolsHeader";
 const SchoolsPage = () => {
-  const [class_taken, setClassTaken] = useState("CE");
+  const [class_taken, setClassTaken] = useState("JSS3");
 
   return (
     <Box className="sm:p-5 space-y-4 p-3">
@@ -56,9 +56,9 @@ const SchoolsPage = () => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Classes</SelectLabel>
-                      <SelectItem value="CE">Common Entrance</SelectItem>
+                      {/* <SelectItem value="CE">Common Entrance</SelectItem> */}
                       <SelectItem value="JSS3">JSS3</SelectItem>
-                      <SelectItem value="SS2">SS2</SelectItem>
+                      {/* <SelectItem value="SS2">SS2</SelectItem> */}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

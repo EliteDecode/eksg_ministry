@@ -88,6 +88,22 @@ const getRegStatus = async (token) => {
   return response.data;
 };
 
+const getAllLGASchools = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(`${API_URL}/lga-schools`, config);
+
+  if (response.data) {
+    localStorage.setItem("lgaAdminSchools", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
 const authService = {
   getAllSchools,
   closeRegisteration,
@@ -95,6 +111,7 @@ const authService = {
   addSchool,
   updateSchool,
   getRegStatus,
+  getAllLGASchools,
 };
 
 export default authService;

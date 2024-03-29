@@ -5,7 +5,15 @@ import { Box, Grid } from "@mui/material";
 import { Typography } from "antd";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import Loader from "@/lib/Loader";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +30,21 @@ const SingleStudentPage = () => {
   const { singleStudents, isError, isSuccess, isLoading, subjects } =
     useSelector((state) => state.Adminstudents);
 
+  const [loading, setLoading] = useState(false);
+
   const { singleSchool } = useSelector((state) => state.Adminschools);
+  const handleedit = () => {
+    navigate(`/dashboard/edit-student/${studentId}`, {
+      state: {
+        student: singleStudents,
+      },
+    });
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    // dispatch(deleteSingleStudents(studentId));
+  };
 
   useEffect(() => {
     dispatch(getSingleStudent(studentId));
@@ -44,6 +66,10 @@ const SingleStudentPage = () => {
     {
       title: "Student Code",
       value: singleStudents?.student_code,
+    },
+    {
+      title: "Student Pin",
+      value: singleStudents?.pin,
     },
     {
       title: "Gender",
@@ -95,13 +121,31 @@ const SingleStudentPage = () => {
             />
           </Box>
           <Box className="space-x-2">
-            {/* <Link
-              to={{
-                pathname: `/dashboard/edit-student/${studentId}`,
-                state: { data: "jjjjj" },
-              }}>
-            </Link> */}
-            {/* <Button variant="destructive">Delete Student Info</Button> */}
+            <Button onClick={handleedit}>Edit Student Info</Button>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="destructive">Delete student data</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Delete Student data</DialogTitle>
+                  <DialogDescription>
+                    You are about to delete this student data
+                  </DialogDescription>
+                </DialogHeader>
+
+                <DialogFooter>
+                  <Button
+                    type="submit"
+                    variant="destructive"
+                    disabled={loading || isLoading}
+                    onClick={handleDelete}>
+                    {loading ? "Please wait..." : "Proceed"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </Box>
         </Box>
       </Box>

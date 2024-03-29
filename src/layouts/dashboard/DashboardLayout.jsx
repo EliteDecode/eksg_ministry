@@ -56,7 +56,7 @@ const DashboardLayout = () => {
             isSidebar ? "header" : "sm:w-[100%]"
           } header transit  bg-[#919EAB29] w-[100%]`}>
           <Header setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
-          <Box className=" ">
+          <Box className="relative ">
             <Outlet />
           </Box>
         </Box>

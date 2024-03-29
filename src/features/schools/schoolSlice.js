@@ -3,9 +3,11 @@ import schoolService from "./schoolService";
 
 const schools = JSON.parse(localStorage.getItem("Adminschools"));
 const regStatus = JSON.parse(localStorage.getItem("reg-status"));
+const lgaAdminSchools = JSON.parse(localStorage.getItem("lgaAdminSchools"));
 
 const initialState = {
   schools: schools ? schools : null,
+  lgaSchools: lgaAdminSchools ? lgaAdminSchools : null,
   singleSchool: null,
   regStatus: regStatus ? regStatus : null,
   isError: false,
@@ -24,6 +26,25 @@ export const getAllSchools = createAsyncThunk(
     try {
       const token = thunkAPI.getState().adminAuth.user.token;
       const data = await schoolService.getAllSchools(token);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getAllLGAsSchools = createAsyncThunk(
+  "schools/getAllLGAsSchools",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await schoolService.getAllLGASchools(token);
       return data;
     } catch (error) {
       const message =
@@ -157,6 +178,21 @@ const schoolSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getAllSchools.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getAllLGAsSchools.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllLGAsSchools.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.lgaSchools = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getAllLGAsSchools.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

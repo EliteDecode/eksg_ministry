@@ -65,6 +65,11 @@ export const sidebar = [
       //   Icon: schoolImg,
       //   link: "subjects",
       // },
+      {
+        Title: "Subject Analysis",
+        Icon: gradeSystemImg,
+        link: "subject-analysis",
+      },
 
       {
         Title: "Results",

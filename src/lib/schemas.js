@@ -101,3 +101,57 @@ export const editAdminSchema = yup.object({
     }),
   status: yup.string().trim(),
 });
+
+export const registerStudentSchema = yup.object({
+  firstname: yup
+    .string()
+    .trim()
+    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
+    .max(50, "Firstname must be at most 50 characters")
+    .required("Firstname is required"),
+  surname: yup
+    .string()
+    .trim()
+    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
+    .max(50, "Surname must be at most 50 characters")
+    .required("Surname is required"),
+  passportLocal: yup.string().required("Passport is required"),
+  othername: yup
+    .string()
+    .trim()
+    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
+    .max(50, "Other names must be at most 50 characters"),
+  date_of_birth: yup.string().required("Date of birth is required"),
+  lga: yup
+    .string()
+    .trim()
+    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
+    .max(50, "LGA must be at most 50 characters")
+    .required("LGA is required"),
+  school_lga: yup.string().required(" School LGA is required"),
+  school_id: yup.number().required(" School is required"),
+  gender: yup.string().trim().required("Gender is required"),
+  state_of_origin: yup
+    .string()
+    .trim()
+    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
+    .max(50, "State of origin must be at most 50 characters")
+    .required("State of origin is required"),
+  ca_scores: yup
+    .array()
+    .min(
+      9,
+      `Please select at least 9 subjects with min value of 30 and max value of 100.`
+    )
+    .required("Test scores are required"),
+});
+
+export const updateEditStudentSchema = yup.object({
+  ca_scores: yup
+    .array()
+    .min(
+      9,
+      `Please select at least 9 subjects with min value of 30 and max value of 100.`
+    )
+    .required("Test scores are required"),
+});

@@ -18,6 +18,7 @@ import AreaChartComp from "../../components/Charts/AreaChartComp";
 import { usersData } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getAllLGAsSchools,
   getAllSchools,
   getRegStatus,
   reset,
@@ -26,7 +27,10 @@ import {
 import Loader from "@/lib/Loader";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { getAllStudents } from "@/features/students/studentSlice";
+import {
+  getAllStudents,
+  getAllSubjects,
+} from "@/features/students/studentSlice";
 import { getAdmins } from "@/features/auth/authSlice";
 import regImage from "../../assets/icons/website.png";
 
@@ -91,6 +95,8 @@ const DashboardHomePage = () => {
     dispatch(getAllStudents());
     dispatch(getAdmins());
     dispatch(getRegStatus());
+    dispatch(getAllLGAsSchools());
+    dispatch(getAllSubjects());
   }, []);
 
   useEffect(() => {
