@@ -41,13 +41,13 @@ const DashboardHomePage = () => {
   const { students } = useSelector((state) => state.Adminstudents);
 
   const HomeCardContents = [
-    {
-      title: "Total Schools (Primary)",
-      description: schools?.data?.CE?.total,
-      image: schoolImg,
-      buttonText: "View Schools",
-      link: "/dashboard/schools",
-    },
+    // {
+    //   title: "Total Schools (Primary)",
+    //   description: schools?.data?.CE?.total,
+    //   image: schoolImg,
+    //   buttonText: "View Schools",
+    //   link: "/dashboard/schools",
+    // },
     {
       title: "Total Schools (JSS3)",
       description: schools?.data?.JSS3?.total,
@@ -55,23 +55,13 @@ const DashboardHomePage = () => {
       buttonText: "View Schools",
       link: "/dashboard/schools",
     },
-    {
-      title: "Total Schools (SS3)",
-      description: schools?.data?.SS2?.total,
-      image: schoolImg,
-      buttonText: "View Schools",
-      link: "/dashboard/schools",
-    },
-  ];
-
-  const HomeCardContentsStudents = [
-    {
-      title: "Total Students (Primary)",
-      description: students?.data?.CE?.total,
-      image: studentsImg,
-      buttonText: "View Students",
-      link: "/dashboard/students",
-    },
+    // {
+    //   title: "Total Schools (SS3)",
+    //   description: schools?.data?.SS2?.total,
+    //   image: schoolImg,
+    //   buttonText: "View Schools",
+    //   link: "/dashboard/schools",
+    // },
     {
       title: "Total Students (JSS3)",
       description: students?.data?.JSS3?.total,
@@ -79,14 +69,40 @@ const DashboardHomePage = () => {
       buttonText: "View Students",
       link: "/dashboard/students",
     },
+
     {
-      title: "Total Students (SS3)",
-      description: students?.data?.SS2?.total,
+      title: "Operation Manual",
+      description: "A guide to software usage",
       image: studentsImg,
-      buttonText: "View Students",
-      link: "/dashboard/students",
+      buttonText: "View Manual",
+      link: "",
+      cat: "2",
     },
   ];
+
+  // const HomeCardContentsStudents = [
+  //   {
+  //     title: "Total Students (Primary)",
+  //     description: students?.data?.CE?.total,
+  //     image: studentsImg,
+  //     buttonText: "View Students",
+  //     link: "/dashboard/students",
+  //   },
+  //   {
+  //     title: "Total Students (JSS3)",
+  //     description: students?.data?.JSS3?.total,
+  //     image: studentsImg,
+  //     buttonText: "View Students",
+  //     link: "/dashboard/students",
+  //   },
+  //   {
+  //     title: "Total Students (SS3)",
+  //     description: students?.data?.SS2?.total,
+  //     image: studentsImg,
+  //     buttonText: "View Students",
+  //     link: "/dashboard/students",
+  //   },
+  // ];
 
   const dispatch = useDispatch();
 
@@ -220,7 +236,7 @@ const DashboardHomePage = () => {
               </Grid>
             </Box>
 
-            <Box>
+            {/* <Box>
               <Typography className="my-2 text-[13px] font-bold">
                 All Students Data
               </Typography>
@@ -257,7 +273,7 @@ const DashboardHomePage = () => {
                   </Grid>
                 ))}
               </Grid>
-            </Box>
+            </Box> */}
 
             <Grid container className="mt-5">
               <Grid item xs={12} sm={12} md={12}>

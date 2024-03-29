@@ -74,10 +74,9 @@ const HeaderTitle = ({
                   <AlertDialogHeader className="text-center">
                     <AlertDialogTitle>Confirm Deactivation</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You are about to deactivate Adventist Comprehensive High
-                      School from accessing the platform. This will not delete
-                      their file or account from the system. Do you still want
-                      to proceed?
+                      You are about to deactivate this school from accessing the
+                      platform. This will not delete their file or account from
+                      the system. Do you still want to proceed?
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
