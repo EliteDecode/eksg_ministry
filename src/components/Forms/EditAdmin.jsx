@@ -60,11 +60,13 @@ export function EditAdmin({ data }) {
   };
 
   useEffect(() => {
-    if (isSuccess && message === "admin updated") {
-      toast.success("Admin updated successfully");
+    if (isSuccess && message == "admin updated") {
+      // toast.success("Admin updated successfully", {
+      //   onClose: () => {
+      //   },
+      // });
+      window.location.reload();
       dispatch(reset());
-      setLoading(false);
-      navigate("/");
     }
 
     if (isError) {

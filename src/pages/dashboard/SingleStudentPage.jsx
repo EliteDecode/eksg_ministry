@@ -17,7 +17,11 @@ import {
 import Loader from "@/lib/Loader";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleStudent } from "@/features/students/studentSlice";
+import {
+  deleteSingleStudents,
+  getSingleStudent,
+} from "@/features/students/studentSlice";
+import { toast } from "react-toastify";
 
 function handleClick(event) {
   event.preventDefault();
@@ -27,7 +31,7 @@ function handleClick(event) {
 const SingleStudentPage = () => {
   const dispatch = useDispatch();
   const { studentId } = useParams();
-  const { singleStudents, isError, isSuccess, isLoading, subjects } =
+  const { singleStudents, isError, isSuccess, isLoading, message, subjects } =
     useSelector((state) => state.Adminstudents);
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +47,7 @@ const SingleStudentPage = () => {
 
   const handleDelete = async () => {
     setLoading(true);
-    // dispatch(deleteSingleStudents(studentId));
+    dispatch(deleteSingleStudents(studentId));
   };
 
   useEffect(() => {
@@ -63,10 +67,7 @@ const SingleStudentPage = () => {
       title: "Othernames",
       value: singleStudents?.othername,
     },
-    {
-      title: "Student Code",
-      value: singleStudents?.student_code,
-    },
+
     {
       title: "Student Pin",
       value: singleStudents?.pin,
@@ -107,13 +108,23 @@ const SingleStudentPage = () => {
   ];
 
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isSuccess && message == "deleted") {
+      toast.info("Student data deleted successfully", {
+        onClose: () => {
+          navigate("/dashboard/students");
+          setLoading(false);
+        },
+      });
+    }
+  }, [isSuccess, isError, isLoading, message]);
 
   return (
     <Box className="p-4">
       <Box
         className={`w-full mt-5 bg-white sm:px-5 sm:py-5 p-3 rounded-md mb-5`}>
         <Box className="flex flex-wrap justify-between space-y-4 ">
-          <Box className="bg-white my-3 rounded-md p-1.5 shadow-md w-[15%]">
+          <Box className="bg-white my-3 rounded-md p-1.5 shadow-md sm:w-[15%] w-[50%] ">
             <img
               src={singleStudents?.passport}
               alt="student Image"
@@ -153,26 +164,29 @@ const SingleStudentPage = () => {
         <Loader />
       ) : (
         <>
-          <Box role="presentation" onClick={handleClick}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link
-                to="/dashboard/schools"
-                className="hover:underline"
-                style={{ fontSize: "14px" }}>
-                All Schools
-              </Link>
-
-              <Link
-                className="hover:underline"
-                aria-current="page"
-                style={{ fontSize: "14px" }}>
-                {singleSchool?.school_name}
-              </Link>
-            </Breadcrumbs>
-          </Box>
           <Box className="mt-5">
             <Grid container spacing={4}>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={6} className="space-y-4">
+                <Box className="bg-white rounded-md p-5 space-y-4">
+                  <Box className="flex  items-center justify-between space-x-2">
+                    <Typography className="font-bold text-[14px] text-[#000]">
+                      School Name:
+                    </Typography>
+                    <Typography>{singleStudents?.school_name}</Typography>
+                  </Box>
+                  <Box className="flex  items-center justify-between space-x-2">
+                    <Typography className="font-bold text-[14px] text-[#000]">
+                      School Code:
+                    </Typography>
+                    <Typography>{singleStudents?.school_code}</Typography>
+                  </Box>
+                  <Box className="flex  items-center justify-between space-x-2">
+                    <Typography className="font-bold text-[14px] text-[#000]">
+                      School LGA:
+                    </Typography>
+                    <Typography>{singleStudents?.school_lga}</Typography>
+                  </Box>
+                </Box>
                 <Box className="bg-white rounded-md p-5 ">
                   <Box>
                     <Box className="space-y-4">
@@ -186,12 +200,22 @@ const SingleStudentPage = () => {
                           <Typography>{item.value}</Typography>
                         </Box>
                       ))}
+                      {studentDetails?.student_code != null && (
+                        <Box className="flex  items-center justify-between space-x-2">
+                          <Typography className="font-bold text-[14px] text-[#000]">
+                            Student Exam Number
+                          </Typography>
+                          <Typography>
+                            {studentDetails?.student_code}
+                          </Typography>
+                        </Box>
+                      )}
                     </Box>
                   </Box>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
-                <Box className="bg-white rounded-md p-5 ">
+                <Box className="bg-white rounded-md p-5 overflow-x-scroll">
                   <Box>
                     <Box className="space-y-4">
                       <table className="min-w-full divide-y divide-gray-200">

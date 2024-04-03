@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { updateSchool } from "@/features/schools/schoolSlice";
 import { lgArray } from "@/lib/utils";
+import { reset } from "@/features/students/studentSlice";
 
 export function EditSchoolForm() {
   const { singleSchool, isLoading, isError, isSuccess, message } = useSelector(
@@ -48,7 +49,11 @@ export function EditSchoolForm() {
     }
 
     if (isError) {
-      toast.error(message, {});
+      toast.error("something went wrong", {});
+    }
+
+    if (isSuccess && isError) {
+      dispatch(reset());
     }
   }, [isLoading, isError, isLoading, dispatch, message]);
 
@@ -78,10 +83,8 @@ export function EditSchoolForm() {
         pin_limit: values.pin_limit,
         owner: values.owner,
         school_code: values.school_code,
-        exam_type_id: values.exam_type,
+        exam_type_id: "2",
       };
-
-      console.log(data);
 
       dispatch(updateSchool(data));
     },
@@ -231,9 +234,9 @@ export function EditSchoolForm() {
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>Exam Type</SelectLabel>
-                        <SelectItem value="1">Primary</SelectItem>
-                        <SelectItem value="2">JSS2</SelectItem>
-                        <SelectItem value="3">SS2</SelectItem>
+                        {/* <SelectItem value="1">Primary</SelectItem> */}
+                        <SelectItem value="2">JSS3</SelectItem>
+                        {/* <SelectItem value="3">SS2</SelectItem> */}
                       </SelectGroup>
                     </SelectContent>
                   </Select>

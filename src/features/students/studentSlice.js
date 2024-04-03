@@ -3,11 +3,23 @@ import studentService from "./studentService";
 
 const students = JSON.parse(localStorage.getItem("Adminstudents"));
 const eksg_subjects = JSON.parse(localStorage.getItem("eksg_subjects"));
+const total_lga_analysis = JSON.parse(
+  localStorage.getItem("total_lga_analysis")
+);
+const single_lga_analysis = JSON.parse(
+  localStorage.getItem("single_lga_analysis")
+);
+const single_school_analysis = JSON.parse(
+  localStorage.getItem("single_school_analysis")
+);
 
 const initialState = {
   students: students ? students : [],
   singleStudents: null,
   subjects: eksg_subjects ? eksg_subjects : [],
+  totalLgaSubjectAnalysis: [],
+  singleLgaSubjectAnalysis: [],
+  singleSchoolSubjectAnalysis: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -24,6 +36,90 @@ export const getAllStudents = createAsyncThunk(
     try {
       const token = thunkAPI.getState().adminAuth.user.token;
       const data = await studentService.getAllStudents(token);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getTotalLgaSubjectAnalysis = createAsyncThunk(
+  "students/getTotalLgaSubjectAnalysis",
+  async (exam_type, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await studentService.getTotalLgaSubjectAnalysis(
+        token,
+        exam_type
+      );
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+export const getSingleLgaSubjectAnalysis = createAsyncThunk(
+  "students/getSingleLgaSubjectAnalysis",
+  async (lgaId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await studentService.getSingleLgaSubjectAnalysis(
+        token,
+        lgaId
+      );
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getSingleSchoolSubjectAnalysis = createAsyncThunk(
+  "students/getSingleSchoolSubjectAnalysis",
+  async (schoolId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await studentService.getSingleSchoolSubjectAnalysis(
+        token,
+        schoolId
+      );
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const deleteSingleStudents = createAsyncThunk(
+  "students/deleteSingleStudents",
+  async (studentId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await studentService.deleteSingleStudents(token, studentId);
       return data;
     } catch (error) {
       const message =
@@ -60,7 +156,7 @@ export const registerStudent = createAsyncThunk(
   "students/registerStudent",
   async (studentData, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().schoolAuth.user.token;
+      const token = thunkAPI.getState().adminAuth.user.token;
       const data = await studentService.registerStudent(token, studentData);
       console.log(data);
       return data;
@@ -80,7 +176,7 @@ export const updateSingleStudent = createAsyncThunk(
   "students/updateSingleStudent",
   async (studentData, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().schoolAuth.user.token;
+      const token = thunkAPI.getState().adminAuth.user.token;
       const data = await studentService.updateSingleStudents(
         token,
         studentData
@@ -103,7 +199,7 @@ export const getAllSubjects = createAsyncThunk(
   "students/getAllSubjects",
   async (_, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().schoolAuth.user.token;
+      const token = thunkAPI.getState().adminAuth.user.token;
       const data = await studentService.getAllSubjects(token);
       return data;
     } catch (error) {
@@ -141,6 +237,51 @@ const studentsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getAllStudents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getTotalLgaSubjectAnalysis.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTotalLgaSubjectAnalysis.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.totalLgaSubjectAnalysis = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getTotalLgaSubjectAnalysis.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getSingleLgaSubjectAnalysis.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleLgaSubjectAnalysis.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.singleLgaSubjectAnalysis = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getSingleLgaSubjectAnalysis.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getSingleSchoolSubjectAnalysis.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleSchoolSubjectAnalysis.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.singleSchoolSubjectAnalysis = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getSingleSchoolSubjectAnalysis.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -202,6 +343,21 @@ const studentsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getAllSubjects.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(deleteSingleStudents.pending, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteSingleStudents.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.message = "deleted";
+        state.isSuccess = true;
+      })
+      .addCase(deleteSingleStudents.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

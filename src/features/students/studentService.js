@@ -47,6 +47,22 @@ const updateSingleStudents = async (token, data) => {
     config
   );
 
+  console.log(response.data);
+
+  return response.data;
+};
+const deleteSingleStudents = async (token, studentId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.delete(
+    `${API_URL}/student/${studentId}`,
+    config
+  );
+
   return response.data;
 };
 
@@ -77,12 +93,76 @@ const getAllSubjects = async (token) => {
   return response.data;
 };
 
+const getTotalLgaSubjectAnalysis = async (token, exam_type) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(
+    `${API_URL}/subjects/total-lga-analysis/${exam_type}`,
+    config
+  );
+
+  if (response.data) {
+    localStorage.setItem("total_lga_analysis", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
+const getSingleLgaSubjectAnalysis = async (token, lgaId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(
+    `${API_URL}/subjects/lga-analysis/${lgaId}`,
+    config
+  );
+
+  if (response.data) {
+    localStorage.setItem("single_lga_analysis", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
+const getSingleSchoolSubjectAnalysis = async (token, schoolId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(
+    `${API_URL}/subjects/school-analysis/${schoolId}`,
+    config
+  );
+
+  if (response.data) {
+    localStorage.setItem(
+      "single_school_analysis",
+      JSON.stringify(response.data)
+    );
+  }
+
+  return response.data;
+};
+
 const authService = {
   getAllStudents,
   getSingleStudent,
   getAllSubjects,
   registerStudent,
+  getSingleLgaSubjectAnalysis,
   updateSingleStudents,
+  deleteSingleStudents,
+  getTotalLgaSubjectAnalysis,
+  getSingleSchoolSubjectAnalysis,
 };
 
 export default authService;

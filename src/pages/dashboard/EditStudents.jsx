@@ -13,15 +13,21 @@ import Loader from "@/lib/Loader";
 import { getSingleStudent } from "@/features/students/studentSlice";
 
 const EditStudents = () => {
-  const loading = false;
   const { studentId } = useParams();
   const dispatch = useDispatch();
   const { singleStudents, isError, isSuccess, isLoading, subjects } =
     useSelector((state) => state.Adminstudents);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     dispatch(getSingleStudent(studentId));
+    setLoading(true);
   }, []);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [isSuccess, isError]);
 
   return (
     <Box className="sm:p-5 space-y-4 p-3">
@@ -42,7 +48,7 @@ const EditStudents = () => {
           </Link>
         </Breadcrumbs>
       </Box>
-      {isLoading ? (
+      {loading ? (
         <Loader />
       ) : (
         <Box className="mt-5">

@@ -43,7 +43,18 @@ const AddStudent = () => {
           </Link>
         </Breadcrumbs>
       </Box>
-      {isLoading ? (
+      <Box className="mt-5">
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={12} md={12}>
+            <Box className="bg-white rounded-md p-5 ">
+              <Box>
+                <AddStudentForm />
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+      {/* {isLoading ? (
         <Loader />
       ) : (
         <Box className="mt-5">
@@ -57,7 +68,7 @@ const AddStudent = () => {
             </Grid>
           </Grid>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };

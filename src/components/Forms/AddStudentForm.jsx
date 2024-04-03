@@ -42,10 +42,43 @@ const AddStudentForm = () => {
   const [profile, setProfile] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [schoolId, setSchoolId] = useState();
 
   const [loading, setLoading] = useState();
   const [localStore, setLocalStore] = useState([]);
   const [placementLga, setPlacementLGA] = useState();
+
+  const [backgroundDetected, setBackgroundDetected] = useState(false);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        const pixelData = ctx.getImageData(0, 0, 1, 1).data;
+        const [red, green, blue] = pixelData;
+
+        // Check if the background color is red
+        if (red > 200 && green < 100 && blue < 100) {
+          setBackgroundDetected(true);
+          formik.setFieldValue("passportLocal", event.target.files[0]);
+        } else {
+          setBackgroundDetected(false);
+          formik.setFieldValue("passportLocal", "");
+        }
+      };
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   let subjects = [];
   let totalStudents = [];
@@ -109,10 +142,10 @@ const AddStudentForm = () => {
       (subject) =>
         subject.ca1_score !== "" &&
         subject.ca2_score !== "" &&
-        subject.ca1_score > 29 &&
-        subject.ca1_score < 101 &&
-        subject.ca2_score > 29 &&
-        subject.ca2_score < 101
+        subject.ca1_score > 0 &&
+        subject.ca1_score < 31 &&
+        subject.ca2_score > 0 &&
+        subject.ca2_score < 31
     );
     formik.setFieldValue("ca_scores", filteredSubjects);
   }, [subjectScores]);
@@ -121,9 +154,16 @@ const AddStudentForm = () => {
     if (isSuccess && message === "student added successfully") {
       toast.success("Student Registered successfully", {
         onClose: () => {
+          navigate(`/dashboard/schools/${schoolId}`);
           dispatch(reset());
+        },
+      });
+    }
 
-          navigate("/dashboard/students");
+    if (isError) {
+      toast.error(message, {
+        onClose: () => {
+          dispatch(reset());
         },
       });
     }
@@ -165,9 +205,11 @@ const AddStudentForm = () => {
           registerStudent({
             ...values,
             passport: response?.data?.url,
-            exam_type_id: user?.exam_type_id,
+            exam_type_id,
           })
         );
+
+        console.log({ ...values, passport: response?.data?.url, exam_type_id });
         setLoading(false);
       }
     },
@@ -182,6 +224,15 @@ const AddStudentForm = () => {
             alt=""
             className="h-[120px] w-[110px] mt-1"
           />
+          {backgroundDetected ? (
+            <p className="text-[12px]" style={{ color: "green" }}>
+              Background is red - Accepted
+            </p>
+          ) : (
+            <p className="text-[12px]" style={{ color: "red" }}>
+              Background color of passport MUST be red
+            </p>
+          )}
 
           <Grid container spacing={4}>
             <Grid item xs={12} sm={12} md={6}>
@@ -391,10 +442,7 @@ const AddStudentForm = () => {
                       name="passportLocal"
                       type="file"
                       onChange={(event) => {
-                        formik.setFieldValue(
-                          "passportLocal",
-                          event.currentTarget.files[0]
-                        );
+                        handleImageUpload(event);
                         // Display the chosen picture beneath the form
                         setProfile(
                           URL.createObjectURL(event.currentTarget.files[0])
@@ -460,9 +508,10 @@ const AddStudentForm = () => {
                             </Label>
                             <Select
                               name="school_id"
-                              onValueChange={(value) =>
-                                formik.setFieldValue("school_id", value)
-                              }
+                              onValueChange={(value) => {
+                                formik.setFieldValue("school_id", value);
+                                setSchoolId(value);
+                              }}
                               className="text-[12px]">
                               <SelectTrigger className="w-[100%] text-xs">
                                 <SelectValue placeholder="Select" />

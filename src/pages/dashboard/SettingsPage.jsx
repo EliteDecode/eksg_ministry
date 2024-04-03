@@ -17,6 +17,7 @@ import { Typography, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeRegisteration,
+  generateExamNumber,
   getRegStatus,
   reset,
 } from "@/features/schools/schoolSlice";
@@ -38,9 +39,21 @@ const SettingsPage = () => {
     dispatch(closeRegisteration({ is_active: true }));
   };
 
+  const handleGenerate = () => {
+    dispatch(generateExamNumber());
+  };
+
   useEffect(() => {
     if (isSuccess && message == "Registration status updated successfully") {
       toast.success("Registration Status Updated Successfully", {
+        onClose: () => {
+          navigate("/");
+          dispatch(reset());
+        },
+      });
+    }
+    if (isSuccess && message == "Exam Number assigned Successfully") {
+      toast.success("Exam Number assigned Successfully", {
         onClose: () => {
           navigate("/");
           dispatch(reset());
@@ -72,22 +85,89 @@ const SettingsPage = () => {
           </Box>
         </Box>
       </Box>
-      {regStatus?.is_registration_active ? (
+      <>
+        {regStatus?.is_registration_active ? (
+          <Box className="overflow-x-scroll p-5 bg-white sm:w-[30%] space-y-4 w-[100%]">
+            <Typography className="text-gray-500 text-[14px]">
+              <span className="text-red-500">(*)</span> When registration is
+              closed, schools will no longer have the ability to add new
+              students or make changes to their registered student records.
+            </Typography>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="destructive">Close Registerations</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Close Registeration</DialogTitle>
+                  <DialogDescription>
+                    You are about to close the portal for all registerations
+                  </DialogDescription>
+                </DialogHeader>
+
+                <DialogFooter>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    onClick={handleClose}>
+                    {isLoading ? "Please wait..." : "Close Registeration"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </Box>
+        ) : (
+          <Box className="overflow-x-scroll p-5 bg-white sm:w-[30%] space-y-4 w-[100%]">
+            <Typography className="text-gray-500 text-[14px]">
+              <span className="text-red-500">(*)</span> When registration is
+              opened, schools will be able to to add new students and make
+              changes to their registered student records.
+            </Typography>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="" className="bg-teal-600">
+                  Open Registerations
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Open Registeration</DialogTitle>
+                  <DialogDescription>
+                    You are about to open the portal for all registerations
+                  </DialogDescription>
+                </DialogHeader>
+
+                <DialogFooter>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    onClick={handleOpen}>
+                    {isLoading ? "Please wait..." : "Open Registeration"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </Box>
+        )}
+      </>
+
+      <>
         <Box className="overflow-x-scroll p-5 bg-white sm:w-[30%] space-y-4 w-[100%]">
           <Typography className="text-gray-500 text-[14px]">
-            <span className="text-red-500">(*)</span> When registration is
-            closed, schools will no longer have the ability to add new students
-            or make changes to their registered student records.
+            <span className="text-red-500">(*)</span> Generating exam numbers
+            means giving each students their individual exam number
           </Typography>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="destructive">Close Registerations</Button>
+              <Button variant="" className="bg-blue-600">
+                Generate Exam Numbers
+              </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Close Registeration</DialogTitle>
+                <DialogTitle>Generate Exam Number</DialogTitle>
                 <DialogDescription>
-                  You are about to close the portal for all registerations
+                  You are about to generate exam numbers for all students
                 </DialogDescription>
               </DialogHeader>
 
@@ -95,43 +175,14 @@ const SettingsPage = () => {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  onClick={handleClose}>
-                  {isLoading ? "Please wait..." : "Close Registeration"}
+                  onClick={handleGenerate}>
+                  {isLoading ? "Please wait..." : "Generate Exam Number"}
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </Box>
-      ) : (
-        <Box className="overflow-x-scroll p-5 bg-white sm:w-[30%] space-y-4 w-[100%]">
-          <Typography className="text-gray-500 text-[14px]">
-            <span className="text-red-500">(*)</span> When registration is
-            opened, schools will be able to to add new students and make changes
-            to their registered student records.
-          </Typography>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="" className="bg-teal-600">
-                Open Registerations
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Open Registeration</DialogTitle>
-                <DialogDescription>
-                  You are about to open the portal for all registerations
-                </DialogDescription>
-              </DialogHeader>
-
-              <DialogFooter>
-                <Button type="submit" disabled={isLoading} onClick={handleOpen}>
-                  {isLoading ? "Please wait..." : "Open Registeration"}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </Box>
-      )}
+      </>
     </Box>
   );
 };

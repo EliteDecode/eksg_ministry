@@ -48,7 +48,7 @@ export function AddAdmin() {
   };
 
   useEffect(() => {
-    if (isSuccess && message === "admin added") {
+    if (isSuccess && message == "admin added") {
       toast.success("Admin added successfully", {
         onClose: () => {
           window.location.reload();
@@ -71,7 +71,15 @@ export function AddAdmin() {
     },
     validationSchema: addAdminSchema,
     onSubmit: (values) => {
-      dispatch(register(values));
+      dispatch(
+        register({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          password_confirmation: values.password_confirmation,
+          status: values.status == "1" ? 1 : 0,
+        })
+      );
     },
   });
 

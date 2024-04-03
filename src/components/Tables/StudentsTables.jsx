@@ -163,11 +163,6 @@ const StudentsTables = ({ filteredStudents }) => {
         </span>
       ),
     },
-    {
-      title: "Pin",
-      dataIndex: "pin",
-      key: "pin",
-    },
 
     {
       title: "Action",

@@ -77,6 +77,25 @@ export const getRegStatus = createAsyncThunk(
   }
 );
 
+export const generateExamNumber = createAsyncThunk(
+  "schools/generateExamNumber",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await schoolService.generateExamNumber(token);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const getSingleSchool = createAsyncThunk(
   "schools/getSingleSchool",
   async (schoolId, thunkAPI) => {
@@ -273,6 +292,21 @@ const schoolSlice = createSlice({
         state.message = "Registration status updated successfully";
       })
       .addCase(closeRegisteration.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(generateExamNumber.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(generateExamNumber.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = "Exam Number assigned Successfully";
+      })
+      .addCase(generateExamNumber.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

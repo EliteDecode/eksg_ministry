@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 import { Typography } from "antd";
 import LoginForm from "@/components/Forms/LoginForm";
+import logo from "../../assets/images/eklogo.png";
 
 const Login = () => {
   return (
@@ -9,11 +10,8 @@ const Login = () => {
       <Box className="bg-white  py-5">
         <Box className="container-c">
           <Box className="flex items-center">
-            <Box className="sm:h-16 h-12 sm:w-16 w-12 flex justify-center items-center flex-col rounded-full bg-primary">
-              <Typography className="text-white sm:text-[30px] text-[20px] font-black">
-                EK
-              </Typography>
-            </Box>
+            <img src={logo} alt="" className="sm:w-[6%] w-[20%]" />
+
             <Box className="text-center w-[100%]">
               <Typography className="sm:text-[30px] text-[20px] capitalize font-bold">
                 Ekiti state admin portal

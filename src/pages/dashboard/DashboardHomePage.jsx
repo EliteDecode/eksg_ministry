@@ -75,7 +75,7 @@ const DashboardHomePage = () => {
       description: "A guide to software usage",
       image: studentsImg,
       buttonText: "View Manual",
-      link: "",
+      link: "../src/assets/doc.pdf",
       cat: "2",
     },
   ];
@@ -204,7 +204,7 @@ const DashboardHomePage = () => {
               <Grid container spacing={2}>
                 {HomeCardContents.map((item, index) => (
                   <Grid item xs={12} sm={12} md={4} key={index} className="">
-                    <Link to={item.link}>
+                    <a href={item.link}>
                       <Card className="border-none">
                         <Box className="flex justify-between items-center">
                           <CardHeader>
@@ -230,7 +230,7 @@ const DashboardHomePage = () => {
                           </Button>
                         </CardFooter>
                       </Card>
-                    </Link>
+                    </a>
                   </Grid>
                 ))}
               </Grid>

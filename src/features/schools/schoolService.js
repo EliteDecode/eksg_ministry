@@ -72,6 +72,22 @@ const closeRegisteration = async (token, status) => {
   return response.data;
 };
 
+const generateExamNumber = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(
+    `${API_URL}/generate-exam-number`,
+    "",
+    config
+  );
+
+  return response.data;
+};
+
 const getRegStatus = async (token) => {
   const config = {
     headers: {
@@ -112,6 +128,7 @@ const authService = {
   updateSchool,
   getRegStatus,
   getAllLGASchools,
+  generateExamNumber,
 };
 
 export default authService;

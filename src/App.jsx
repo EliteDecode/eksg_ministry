@@ -30,6 +30,8 @@ import AdminPage from "./pages/dashboard/AdminPage";
 import SubjectAnalysis from "./pages/subject-analysis/SubjectAnalysis";
 import AddStudent from "./pages/dashboard/AddStudent";
 import EditStudents from "./pages/dashboard/EditStudents";
+import SingleLgaSubjectAnalysis from "./pages/subject-analysis/SingleLgaSubjectAnalysis";
+import SingleSchoolSubjectAnalysis from "./pages/subject-analysis/SingleSchoolSubjectAnalysis";
 
 // routes
 
@@ -89,6 +91,14 @@ export default function App() {
         {
           path: "subject-analysis",
           element: <SubjectAnalysis />,
+        },
+        {
+          path: "singleLga-analysis/:lgaId",
+          element: <SingleLgaSubjectAnalysis />,
+        },
+        {
+          path: "singleSchool-analysis/:schoolId",
+          element: <SingleSchoolSubjectAnalysis />,
         },
         {
           path: "schools/add-school",
