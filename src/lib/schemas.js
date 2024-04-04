@@ -141,7 +141,7 @@ export const registerStudentSchema = yup.object({
     .array()
     .min(
       9,
-      `Please select at least 9 subjects with min value of 0 and max value of 30.`
+      `Please select at least 9 subjects with min value of 0 and max value of 20.`
     )
     .required("Test scores are required"),
 });
@@ -151,7 +151,7 @@ export const updateEditStudentSchema = yup.object({
     .array()
     .min(
       9,
-      `Please select at least 9 subjects with min value of 0 and max value of 30.`
+      `Please select at least 9 subjects with min value of 0 and max value of 20.`
     )
     .required("Test scores are required"),
   passportLocal: yup.string().required("Passport is required"),
