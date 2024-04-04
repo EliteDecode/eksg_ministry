@@ -255,7 +255,7 @@ export function EditSchoolForm() {
                     Add Quota
                   </Label>
                   <Input
-                    placeholder="e.g. Adventist school"
+                    placeholder="e.g. 100"
                     name="pin_limit"
                     type="number"
                     value={formik.values.pin_limit}
