@@ -145,9 +145,9 @@ const EditStudentForm = () => {
         subject.ca1_score !== "" &&
         subject.ca2_score !== "" &&
         subject.ca1_score > 0 &&
-        subject.ca1_score < 31 &&
+        subject.ca1_score < 21 &&
         subject.ca2_score > 0 &&
-        subject.ca2_score < 31
+        subject.ca2_score < 21
     );
     formik.setFieldValue("ca_scores", filteredSubjects);
   }, [subjectScores]);
