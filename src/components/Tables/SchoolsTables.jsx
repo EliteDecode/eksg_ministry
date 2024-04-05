@@ -6,17 +6,14 @@ import { schoolsTableData } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const SchoolsTables = ({ class_taken }) => {
+const SchoolsTables = ({ lga }) => {
   const { schools, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.Adminschools
   );
 
-  const filtered =
-    class_taken === "CE"
-      ? schools?.data?.CE?.schools
-      : class_taken === "JSS3"
-      ? schools?.data?.JSS3?.schools
-      : schools?.data?.SS2?.schools;
+  const filtered = schools?.data?.JSS3?.schools?.filter(
+    (school) => school.local_government == lga
+  );
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -127,6 +124,7 @@ const SchoolsTables = ({ class_taken }) => {
         text
       ),
   });
+
   const columns = [
     {
       title: "Name",
@@ -181,6 +179,7 @@ const SchoolsTables = ({ class_taken }) => {
       ),
     },
   ];
-  return <Table columns={columns} dataSource={filtered} />;
+
+  return <Table columns={columns} dataSource={filtered} pagination={false} />;
 };
 export default SchoolsTables;

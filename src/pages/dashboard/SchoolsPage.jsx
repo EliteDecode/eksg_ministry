@@ -19,12 +19,28 @@ import { Button } from "@/components/ui/button";
 import TeachersTables from "@/components/Tables/StudentsTables";
 import { subjectsList } from "@/lib/utils";
 import SchoolsHeader from "@/components/dashboard/SchoolsHeader";
+import { usePDF } from "react-to-pdf";
+import { LGAS } from "@/lib/generateContent";
+import { useSelector } from "react-redux";
 const SchoolsPage = () => {
-  const [class_taken, setClassTaken] = useState("JSS3");
+  const [lga, setLGA] = useState("ADO");
+  const [download, setDownload] = useState(false);
+  const { lgaSchools, regStatus } = useSelector((state) => state.Adminschools);
+
+  const { toPDF, targetRef } = usePDF({
+    filename: `${lga}.pdf`,
+  });
 
   return (
     <Box className="sm:p-5 space-y-4 p-3">
       <SchoolsHeader />
+      <Button
+        onClick={() => {
+          setDownload(true);
+          toPDF();
+        }}>
+        Download {lga} PIN PDF
+      </Button>
       <Box
         className={`w-full mt-5 bg-white sm:px-5 sm:py-2 p-3 rounded-md mb-5`}>
         <Box className="flex flex-wrap space-y-4 items-center justify-between">
@@ -45,20 +61,20 @@ const SchoolsPage = () => {
             <Box className="flex flex-wrap justify-center items-center space-x-1">
               <Box>
                 <Typography className="text-[10px] font-semibold uppercase">
-                  Select Class
+                  Select LGA
                 </Typography>
-                <Select
-                  onValueChange={(value) => setClassTaken(value)}
-                  value={class_taken}>
+                <Select onValueChange={(value) => setLGA(value)} value={lga}>
                   <SelectTrigger className="sm:w-[230px] w-[100%] text-xs">
                     <SelectValue placeholder="Select " />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Classes</SelectLabel>
-                      {/* <SelectItem value="CE">Common Entrance</SelectItem> */}
-                      <SelectItem value="JSS3">JSS3</SelectItem>
-                      {/* <SelectItem value="SS2">SS2</SelectItem> */}
+                      <SelectLabel>LGAS</SelectLabel>
+                      {lgaSchools.map((item, index) => (
+                        <SelectItem value={item.name} key={index}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -67,8 +83,8 @@ const SchoolsPage = () => {
           </Box>
         </Box>
       </Box>
-      <Box className="overflow-x-scroll  bg-white">
-        <SchoolsTables class_taken={class_taken} />
+      <Box className="overflow-x-scroll  bg-white" ref={targetRef}>
+        <SchoolsTables lga={lga} />
       </Box>
     </Box>
   );
