@@ -3,7 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Tag, Typography } from "antd";
 import Highlighter from "react-highlight-words";
 import { schoolsTableData } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const SchoolsTables = ({ lga }) => {
@@ -14,6 +14,12 @@ const SchoolsTables = ({ lga }) => {
   const filtered = schools?.data?.JSS3?.schools?.filter(
     (school) => school.local_government == lga
   );
+
+  const navigate = useNavigate();
+
+  const navigateToSchool = (id, lga) => {
+    navigate(`/dashboard/schools/${id}`, { state: { lga } });
+  };
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -168,13 +174,12 @@ const SchoolsTables = ({ lga }) => {
       fixed: "right",
       render: (_, record) => (
         <Space>
-          <Link to={`/dashboard/schools/${record.id}`}>
-            <Button
-              size="medium"
-              className="border border-primary text-primary text-[10px] font-semibold ">
-              View School
-            </Button>
-          </Link>
+          <Button
+            onClick={() => navigateToSchool(record.id)}
+            size="medium"
+            className="border border-primary text-primary text-[10px] font-semibold ">
+            View School
+          </Button>
         </Space>
       ),
     },

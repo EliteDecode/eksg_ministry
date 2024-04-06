@@ -1,6 +1,6 @@
 import HeaderTitle from "@/components/dashboard/HeaderTitle";
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -22,14 +22,39 @@ import SchoolsHeader from "@/components/dashboard/SchoolsHeader";
 import { usePDF } from "react-to-pdf";
 import { LGAS } from "@/lib/generateContent";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import Loader from "@/lib/Loader";
 const SchoolsPage = () => {
-  const [lga, setLGA] = useState("ADO");
+  const [lga, setLGA] = useState("");
   const [download, setDownload] = useState(false);
   const { lgaSchools, regStatus } = useSelector((state) => state.Adminschools);
+  const [loading, setIsLoading] = useState(false);
 
   const { toPDF, targetRef } = usePDF({
     filename: `${lga}.pdf`,
   });
+
+  const location = useLocation();
+  useLayoutEffect(() => {
+    const getChosenLga = JSON.parse(localStorage.getItem("chosenLga"));
+    console.log(getChosenLga);
+    if (getChosenLga) {
+      setLGA(getChosenLga);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      if (!lga) {
+        localStorage.setItem("chosenLga", JSON.stringify("ADO"));
+        setIsLoading(false);
+      } else {
+        localStorage.setItem("chosenLga", JSON.stringify(lga));
+        setIsLoading(false);
+      }
+    }, 500);
+  }, [lga]);
 
   return (
     <Box className="sm:p-5 space-y-4 p-3">
@@ -63,7 +88,11 @@ const SchoolsPage = () => {
                 <Typography className="text-[10px] font-semibold uppercase">
                   Select LGA
                 </Typography>
-                <Select onValueChange={(value) => setLGA(value)} value={lga}>
+                <Select
+                  onValueChange={(value) => {
+                    setLGA(value);
+                  }}
+                  value={lga}>
                   <SelectTrigger className="sm:w-[230px] w-[100%] text-xs">
                     <SelectValue placeholder="Select " />
                   </SelectTrigger>
@@ -83,9 +112,13 @@ const SchoolsPage = () => {
           </Box>
         </Box>
       </Box>
-      <Box className="overflow-x-scroll  bg-white" ref={targetRef}>
-        <SchoolsTables lga={lga} />
-      </Box>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Box className="overflow-x-scroll  bg-white" ref={targetRef}>
+          <SchoolsTables lga={lga} />
+        </Box>
+      )}
     </Box>
   );
 };
