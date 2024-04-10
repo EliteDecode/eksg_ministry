@@ -70,6 +70,11 @@ export const sidebar = [
         Icon: gradeSystemImg,
         link: "subject-analysis",
       },
+      {
+        Title: "Quota Analysis",
+        Icon: gradeSystemImg,
+        link: "quota-analysis",
+      },
 
       {
         Title: "Results",

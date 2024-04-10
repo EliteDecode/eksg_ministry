@@ -142,12 +142,23 @@ const AddStudentForm = () => {
       (subject) =>
         subject.ca1_score !== "" &&
         subject.ca2_score !== "" &&
-        subject.ca1_score > 0 &&
-        subject.ca1_score < 21 &&
-        subject.ca2_score > 0 &&
-        subject.ca2_score < 21
+        subject.ca1_score !== 0 &&
+        subject.ca2_score !== 0
     );
-    formik.setFieldValue("ca_scores", filteredSubjects);
+
+    const checkFiltered = filteredSubjects?.find(
+      (subject) =>
+        subject.ca1_score < 1 ||
+        subject.ca1_score > 20 ||
+        subject.ca2_score < 1 ||
+        subject.ca2_score > 20
+    );
+
+    if (checkFiltered) {
+      formik.setFieldValue("ca_scores", []);
+    } else {
+      formik.setFieldValue("ca_scores", filteredSubjects);
+    }
   }, [subjectScores]);
 
   useEffect(() => {

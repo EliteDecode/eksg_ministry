@@ -3,15 +3,6 @@ import studentService from "./studentService";
 
 const students = JSON.parse(localStorage.getItem("Adminstudents"));
 const eksg_subjects = JSON.parse(localStorage.getItem("eksg_subjects"));
-const total_lga_analysis = JSON.parse(
-  localStorage.getItem("total_lga_analysis")
-);
-const single_lga_analysis = JSON.parse(
-  localStorage.getItem("single_lga_analysis")
-);
-const single_school_analysis = JSON.parse(
-  localStorage.getItem("single_school_analysis")
-);
 
 const initialState = {
   students: students ? students : [],
@@ -20,6 +11,7 @@ const initialState = {
   totalLgaSubjectAnalysis: [],
   singleLgaSubjectAnalysis: [],
   singleSchoolSubjectAnalysis: [],
+  quotaAnalysis: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -79,6 +71,25 @@ export const getSingleLgaSubjectAnalysis = createAsyncThunk(
         token,
         lgaId
       );
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getQuotaAnalysis = createAsyncThunk(
+  "students/getQuotaAnalysis",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await studentService.getQuotaAnalysis(token);
       return data;
     } catch (error) {
       const message =
@@ -358,6 +369,21 @@ const studentsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(deleteSingleStudents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getQuotaAnalysis.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getQuotaAnalysis.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.quotaAnalysis = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getQuotaAnalysis.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

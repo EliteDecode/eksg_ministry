@@ -153,6 +153,22 @@ const getSingleSchoolSubjectAnalysis = async (token, schoolId) => {
   return response.data;
 };
 
+const getQuotaAnalysis = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(`${API_URL}/quota-analysis`, config);
+
+  if (response.data) {
+    localStorage.setItem("quota_analysis", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
 const authService = {
   getAllStudents,
   getSingleStudent,
@@ -163,6 +179,7 @@ const authService = {
   deleteSingleStudents,
   getTotalLgaSubjectAnalysis,
   getSingleSchoolSubjectAnalysis,
+  getQuotaAnalysis,
 };
 
 export default authService;
