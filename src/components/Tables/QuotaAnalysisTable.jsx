@@ -25,6 +25,8 @@ const QuotaAnalysisTable = () => {
     };
     results.push(data);
   });
+
+  results = results.filter((item) => item.lg_name !== "ADO IV");
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
