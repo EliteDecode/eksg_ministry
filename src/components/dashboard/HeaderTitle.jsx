@@ -98,8 +98,8 @@ const HeaderTitle = ({
                   <AlertDialogHeader className="text-center">
                     <AlertDialogTitle>Confirm Activation</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You are about to activate Adventist Comprehensive High Do
-                      you still want to proceed?
+                      You are about to activate this school you still want to
+                      proceed?
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

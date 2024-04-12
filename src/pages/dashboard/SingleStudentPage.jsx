@@ -119,6 +119,10 @@ const SingleStudentPage = () => {
     }
   }, [isSuccess, isError, isLoading, message]);
 
+  const scores = singleStudents?.scores?.filter(
+    (item) => item.ca1_score !== 0 && item.ca2_score !== 0
+  );
+
   return (
     <Box className="p-4">
       <Box
@@ -239,7 +243,7 @@ const SingleStudentPage = () => {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                          {singleStudents?.scores?.map((item, index) => {
+                          {scores?.map((item, index) => {
                             return (
                               <tr key={index} className="hover:bg-gray-100">
                                 <td className="px-6 py-4 text-left whitespace-nowrap">
