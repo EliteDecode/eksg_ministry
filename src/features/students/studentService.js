@@ -11,9 +11,9 @@ const getAllStudents = async (token) => {
 
   const response = await axios.get(`${API_URL}/sorted-students`, config);
 
-  if (response.data) {
-    localStorage.setItem("Adminstudents", JSON.stringify(response.data));
-  }
+  // if (response.data) {
+  //   localStorage.setItem("Adminstudents", JSON.stringify(response.data));
+  // }
 
   return response.data;
 };

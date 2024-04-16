@@ -5,7 +5,7 @@ const students = JSON.parse(localStorage.getItem("Adminstudents"));
 const eksg_subjects = JSON.parse(localStorage.getItem("eksg_subjects"));
 
 const initialState = {
-  students: students ? students : [],
+  students: [],
   singleStudents: null,
   subjects: eksg_subjects ? eksg_subjects : [],
   totalLgaSubjectAnalysis: [],

@@ -199,7 +199,7 @@ const DashboardHomePage = () => {
 
             <Box>
               <Typography className="my-2 text-[13px] font-bold">
-                All Schools Data
+                All Casino Data
               </Typography>
               <Grid container spacing={2}>
                 {HomeCardContents.map((item, index) => (
