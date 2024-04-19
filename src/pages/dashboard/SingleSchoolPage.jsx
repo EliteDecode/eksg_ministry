@@ -57,8 +57,18 @@ const SingleSchoolPage = () => {
       value: singleSchool?.exam_types?.[0]?.students?.length,
     },
     {
-      title: "Assigned Quota",
+      title: "Remaining Quota",
       value: singleSchool?.pin_limit,
+    },
+    {
+      title: "Used Quota",
+      value: singleSchool?.exam_types?.[0]?.students?.length,
+    },
+    {
+      title: "Assigned Quota",
+      value:
+        singleSchool?.pin_limit +
+        singleSchool?.exam_types?.[0]?.students?.length,
     },
   ];
 
