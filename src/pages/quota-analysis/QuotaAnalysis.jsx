@@ -70,6 +70,20 @@ const QuotaAnalysis = () => {
                 </Box>
               </Box>
             </Box>
+            <Box className="mt-5">
+              <Typography className="">
+                Total Quota Given :{" "}
+                <span className="font-bold">
+                  {quotaAnalysis?.totals?.total_quota_assigned?.toLocaleString()}
+                </span>
+              </Typography>
+              <Typography>
+                Total Registered Students :{" "}
+                <span className="font-bold">
+                  {quotaAnalysis?.totals?.total_students_registered?.toLocaleString()}
+                </span>
+              </Typography>
+            </Box>
           </Box>
           {isLoading ? (
             <Loader />
@@ -78,7 +92,7 @@ const QuotaAnalysis = () => {
             isError ? (
             <Error />
           ) : (
-            <Box className="overflow-x-scroll w-[90%] m-auto ">
+            <Box className="overflow-x-scroll w-[95%] m-auto ">
               <QuotaAnalysisTable />
             </Box>
           )}
