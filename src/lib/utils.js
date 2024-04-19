@@ -45,11 +45,11 @@ export const sidebar = [
         Icon: schoolimg,
         link: "schools",
       },
-      {
-        Title: "Students",
-        Icon: studentsImg,
-        link: "students",
-      },
+      // {
+      //   Title: "Students",
+      //   Icon: studentsImg,
+      //   link: "students",
+      // },
     ],
   },
   {

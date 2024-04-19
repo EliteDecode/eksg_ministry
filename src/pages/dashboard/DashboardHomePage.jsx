@@ -64,7 +64,7 @@ const DashboardHomePage = () => {
     // },
     {
       title: "Total Students (JSS3)",
-      description: students?.data?.JSS3?.total,
+      description: students?.number_of_students,
       image: studentsImg,
       buttonText: "View Students",
       link: "/dashboard/students",
