@@ -98,7 +98,7 @@ export function EditSchoolForm() {
         <DialogHeader>
           <DialogTitle>Edit School Information</DialogTitle>
           <DialogDescription>
-            Make changes school information. Click save when you're done.
+            Make changes to school information. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={formik.handleSubmit}>
