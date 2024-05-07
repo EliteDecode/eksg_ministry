@@ -8,6 +8,12 @@ const logout = async () => {
   localStorage.removeItem("Adminstudents");
 };
 
+export const logoutError = () => {
+  localStorage.removeItem("Adminuser");
+  localStorage.removeItem("Adminschools");
+  localStorage.removeItem("Adminstudents");
+};
+
 const login = async (userData) => {
   const response = await axios.post(`${API_URL}/super-admin/login`, userData);
 

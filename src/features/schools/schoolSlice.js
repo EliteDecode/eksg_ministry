@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import schoolService from "./schoolService";
+import { logoutError } from "../auth/authService";
 
 const schools = JSON.parse(localStorage.getItem("Adminschools"));
 const regStatus = JSON.parse(localStorage.getItem("reg-status"));
@@ -34,6 +35,13 @@ export const getAllSchools = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -53,6 +61,13 @@ export const getAllLGAsSchools = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -72,6 +87,13 @@ export const getRegStatus = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -91,6 +113,13 @@ export const generateExamNumber = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -110,6 +139,13 @@ export const getSingleSchool = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -130,6 +166,13 @@ export const addSchool = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -149,6 +192,13 @@ export const closeRegisteration = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -169,6 +219,13 @@ export const updateSchool = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }

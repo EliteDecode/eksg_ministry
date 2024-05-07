@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from "./authService";
+import authService, { logoutError } from "./authService";
 
 const user = JSON.parse(localStorage.getItem("Adminuser"));
 
@@ -29,6 +29,13 @@ export const login = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -48,6 +55,13 @@ export const register = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -67,6 +81,13 @@ export const updateAdmin = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -86,6 +107,13 @@ export const getAdmins = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }

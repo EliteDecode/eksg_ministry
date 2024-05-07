@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import studentService from "./studentService";
+import { logoutError } from "../auth/authService";
 
 const students = JSON.parse(localStorage.getItem("Adminstudents"));
 const eksg_subjects = JSON.parse(localStorage.getItem("eksg_subjects"));
@@ -36,6 +37,13 @@ export const getAllStudents = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -58,6 +66,13 @@ export const getTotalLgaSubjectAnalysis = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -79,6 +94,13 @@ export const getSingleLgaSubjectAnalysis = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -98,6 +120,13 @@ export const getQuotaAnalysis = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -120,6 +149,13 @@ export const getSingleSchoolSubjectAnalysis = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -139,6 +175,13 @@ export const deleteSingleStudents = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -158,6 +201,13 @@ export const getSingleStudent = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -178,6 +228,13 @@ export const registerStudent = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -201,6 +258,13 @@ export const updateSingleStudent = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -220,6 +284,13 @@ export const getAllSubjects = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
       return thunkAPI.rejectWithValue(message);
     }
   }
