@@ -105,10 +105,6 @@ const getTotalLgaSubjectAnalysis = async (token, exam_type) => {
     config
   );
 
-  if (response.data) {
-    localStorage.setItem("total_lga_analysis", JSON.stringify(response.data));
-  }
-
   return response.data;
 };
 
@@ -124,10 +120,6 @@ const getSingleLgaSubjectAnalysis = async (token, lgaId) => {
     config
   );
 
-  if (response.data) {
-    localStorage.setItem("single_lga_analysis", JSON.stringify(response.data));
-  }
-
   return response.data;
 };
 
@@ -142,14 +134,6 @@ const getSingleSchoolSubjectAnalysis = async (token, schoolId) => {
     `${API_URL}/subjects/school-analysis/${schoolId}`,
     config
   );
-
-  if (response.data) {
-    localStorage.setItem(
-      "single_school_analysis",
-      JSON.stringify(response.data)
-    );
-  }
-
   return response.data;
 };
 
@@ -162,9 +146,17 @@ const getQuotaAnalysis = async (token) => {
 
   const response = await axios.get(`${API_URL}/quota-analysis`, config);
 
-  if (response.data) {
-    localStorage.setItem("quota_analysis", JSON.stringify(response.data));
-  }
+  return response.data;
+};
+
+const getGeneralAnalysis = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(`${API_URL}/analysis`, config);
 
   return response.data;
 };
@@ -180,6 +172,7 @@ const authService = {
   getTotalLgaSubjectAnalysis,
   getSingleSchoolSubjectAnalysis,
   getQuotaAnalysis,
+  getGeneralAnalysis,
 };
 
 export default authService;

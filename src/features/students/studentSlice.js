@@ -9,9 +9,11 @@ const initialState = {
   students: [],
   singleStudents: null,
   subjects: eksg_subjects ? eksg_subjects : [],
+  generalAnalysis: [],
   totalLgaSubjectAnalysis: [],
   singleLgaSubjectAnalysis: [],
   singleSchoolSubjectAnalysis: [],
+  generalAnalysis: [],
   quotaAnalysis: [],
   isError: false,
   isSuccess: false,
@@ -77,6 +79,33 @@ export const getTotalLgaSubjectAnalysis = createAsyncThunk(
     }
   }
 );
+
+export const getGeneralAnalysis = createAsyncThunk(
+  "students/getGeneralAnalysis",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth.user.token;
+      const data = await studentService.getGeneralAnalysis(token);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      if (
+        error.response &&
+        (error.response.status === 403 || error.response.status === 401)
+      ) {
+        logoutError();
+        window.location.href = "/login";
+      }
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const getSingleLgaSubjectAnalysis = createAsyncThunk(
   "students/getSingleLgaSubjectAnalysis",
   async (lgaId, thunkAPI) => {
@@ -319,6 +348,21 @@ const studentsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getAllStudents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getGeneralAnalysis.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getGeneralAnalysis.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.generalAnalysis = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getGeneralAnalysis.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

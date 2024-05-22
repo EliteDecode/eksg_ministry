@@ -33,6 +33,7 @@ import EditStudents from "./pages/dashboard/EditStudents";
 import SingleLgaSubjectAnalysis from "./pages/subject-analysis/SingleLgaSubjectAnalysis";
 import SingleSchoolSubjectAnalysis from "./pages/subject-analysis/SingleSchoolSubjectAnalysis";
 import QuotaAnalysis from "./pages/quota-analysis/QuotaAnalysis";
+import GeneralAnalysis from "./pages/general-analysis/GeneralAnalysis";
 
 // routes
 
@@ -96,6 +97,10 @@ export default function App() {
         {
           path: "quota-analysis",
           element: <QuotaAnalysis />,
+        },
+        {
+          path: "general-analysis",
+          element: <GeneralAnalysis />,
         },
         {
           path: "singleLga-analysis/:lgaId",
