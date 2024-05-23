@@ -141,6 +141,48 @@ const GeneralAnalysis = () => {
                   </span>
                 </Typography>
               </Box>
+
+              <hr className="h-1 bg-gray-100 my-5" />
+
+              <Box className="">
+                <Typography className="mb-2 font-bold uppercase text-yellow-900">
+                  Registeration per Gender for Government Schools
+                </Typography>
+                <hr />
+                <Typography className="mt-4 ">
+                  Total Registered Government Male Students :{" "}
+                  <span className="font-bold">
+                    {generalAnalysis?.govt_male_students_count?.toLocaleString()}
+                  </span>
+                </Typography>
+                <Typography>
+                  Total Registered Government Female Students :{" "}
+                  <span className="font-bold">
+                    {generalAnalysis?.govt_female_students_count?.toLocaleString()}
+                  </span>
+                </Typography>
+              </Box>
+
+              <hr className="h-1 bg-gray-100 my-5" />
+
+              <Box className="">
+                <Typography className="mb-2 font-bold uppercase text-yellow-900">
+                  Registeration per Gender for Private Schools
+                </Typography>
+                <hr />
+                <Typography className="mt-4 ">
+                  Total Registered Private Male Students :{" "}
+                  <span className="font-bold">
+                    {generalAnalysis?.private_male_students_count?.toLocaleString()}
+                  </span>
+                </Typography>
+                <Typography>
+                  Total Registered Private Female Students :{" "}
+                  <span className="font-bold">
+                    {generalAnalysis?.private_female_students_count?.toLocaleString()}
+                  </span>
+                </Typography>
+              </Box>
             </Box>
           )}
         </Box>
